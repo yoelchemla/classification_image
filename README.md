@@ -44,3 +44,7 @@ The model's accuracy is printed during training for both training and validation
 
 ---
 
+### The Classify:
+
+
+<img width="639" alt="Screenshot 2024-05-29 at 15 51 25" src="https://github.com/yoelchemla/classification_image/assets/74509202/ea03aeaf-da03-448d-9eec-0341b6bcaaac">
