@@ -1,4 +1,4 @@
-   # Classification Image
+# Classification Image
 
 ---
 
