@@ -10,14 +10,14 @@ import matplotlib.pyplot as plt
 # Define data transformations for data augmentation and normalization
 data_transforms = {
     'train': transforms.Compose([
-        transforms.Resize((50, 50)),  # Resize the image to 50x50
+        transforms.Resize((50, 50)), 
         transforms.RandomResizedCrop(224),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]),
     'val': transforms.Compose([
-        transforms.Resize((50, 50)),  # Resize the i# mage to 50x50
+        transforms.Resize((50, 50)),
         transforms.Resize(256),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
@@ -25,7 +25,6 @@ data_transforms = {
     ]),
 }
 
-# Define the data directory
 data_dir = '/Users/yoellchemla/Downloads/pythonProject3'
 
 # Create data loader
@@ -41,7 +40,7 @@ print(class_names)
 # Load the pre-trained ResNet-18 model
 model = models.resnet18(pretrained=True)
 
-# Freeze all layers but leave the final classification layer
+# Freeze all layers but without the final classification layer (cnn)
 for name, param in model.named_parameters():
     if "fc" in name:  # Unfreeze the final classification layer
         param.requires_grad = True
@@ -50,14 +49,14 @@ for name, param in model.named_parameters():
 
 # Define the loss function and optimizer
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)  # Use all parameters
+optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)  
 
 # Move the model to the GPU if available
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 model = model.to(device)
 
 # Training loop
-num_epochs = 10
+num_epochs = 10 # changable
 for epoch in range(num_epochs):
     for phase in ['train', 'val']:
         if phase == 'train':
@@ -97,7 +96,7 @@ print("Training complete!")
 torch.save(model.state_dict(), 'drones_classification_model.pth')
 
 
-# Load the saved model
+# Load the model
 model = models.resnet18(pretrained=True)
 model.fc = nn.Linear(model.fc.in_features, 1000)
 model.load_state_dict(torch.load('drones_classification_model.pth'))
@@ -121,7 +120,7 @@ if image.mode != 'RGB':
 
 preprocess = transforms.Compose([
     transforms.Resize((50, 50)),
-    transforms.CenterCrop(224),    # Perform center crop to maintain the size required by the model
+    transforms.CenterCrop(224),    
     transforms.ToTensor(),
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
@@ -129,7 +128,6 @@ preprocess = transforms.Compose([
 input_tensor = preprocess(image)
 input_batch = input_tensor.unsqueeze(0)
 
-# Perform inference
 with torch.no_grad():
     output = new_model(input_batch)
 
